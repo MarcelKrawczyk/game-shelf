@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout(~{::title}, ~{::main})}">
+<head>
+    <title>Games</title>
+</head>
+<body>
+<main>
+    <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
+
+    <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+        <tr>
+            <th><a th:href="@{/games(sort='title', order=${sort == 'title' && order != 'desc'} ? 'desc' : 'asc')}" class="text-white">Title</a></th>
+            <th><a th:href="@{/games(sort='developer', order=${sort == 'developer' && order != 'desc'} ? 'desc' : 'asc')}" class="text-white">Developer</a></th>
+            <th><a th:href="@{/games(sort='year', order=${sort == 'year' && order != 'desc'} ? 'desc' : 'asc')}" class="text-white">Year</a></th>
+            <th><a th:href="@{/games(sort='genre', order=${sort == 'genre' && order != 'desc'} ? 'desc' : 'asc')}" class="text-white">Genre</a></th>
+            <th><a th:href="@{/games(sort='rating', order=${sort == 'rating' && order != 'desc'} ? 'desc' : 'asc')}" class="text-white">Rating</a></th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:if="${games.empty}">
+            <td colspan="6" class="text-center">No games found.</td>
+        </tr>
+        <tr th:each="game : ${games}">
+            <td th:text="${game.title}"></td>
+            <td th:text="${game.developer}"></td>
+            <td th:text="${game.year}"></td>
+            <td th:text="${game.genre}"></td>
+            <td th:text="${game.rating}"></td>
+            <td>
+                <a th:href="@{/games/{id}/edit(id=${game.id})}" class="btn btn-sm btn-warning">Edit</a>
+                <a th:href="@{/games/{id}/delete(id=${game.id})}" class="btn btn-sm btn-danger"
+                   onclick="return confirm('Delete this game?')">Delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+</body>
+</html>
